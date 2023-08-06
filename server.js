@@ -1,15 +1,22 @@
+require('dotenv').config();  // Load environment variables first
+
+const env = process.env.NODE_ENV || 'development';
+const config = require('./config/config')[env];
 const express = require('express');
 const exphbs = require('express-handlebars');
 const session = require('express-session');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const routes = require('./controllers');
-const sequelize = require('./config/connection');
 const path = require('path');
 const { withAuth } = require('./utils/auth');
 const User = require('./models/User');
-
 const app = express();
 const PORT = process.env.PORT || 3001;
+
+const sequelize = new Sequelize(config.database, config.username, config.password, {
+  host: config.host,
+  dialect: 'mysql'
+});
 
 // Set up handlebars
 const hbs = exphbs.create({
@@ -110,9 +117,7 @@ app.get('/account-settings', withAuth, async (req, res) => {
   }
 });
 
-const DEBUG = process.env.DEBUG || true;
 if (DEBUG) {
-  require('dotenv').config();
   require('debug').enable('app:*');
 }
 
