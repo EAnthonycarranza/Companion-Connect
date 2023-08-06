@@ -14,16 +14,7 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 const Sequelize = require('sequelize');
 const mysql = require('mysql2');
-
-const sequelize = new Sequelize(
-  process.env.DB_NAME,
-  process.env.DB_USER,
-  process.env.DB_PASSWORD,
-  {
-    host: process.env.DB_HOST,
-    dialect: 'mysql'
-  }
-);
+const sequelize = require('./config/connection');  // Make sure to provide the correct path to connection.js.
 
 sequelize.options.logging = console.log;
 
