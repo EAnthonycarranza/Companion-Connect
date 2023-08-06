@@ -16,14 +16,19 @@ router.post('/login', async (req, res) => {
     // Find the user with the given email in the database
     const user = await User.findOne({ where: { email } });
 
+    // If the user is not found, immediately send a response
+    if (!user) {
+    return res.render('login', { errorMessage: 'Incorrect email or password. Please try again!' });
+  }
+
     // Check if the provided password matches the hashed password in the database
     const passwordMatch = await bcrypt.compare(password, user.password);
 
-    // If the usernames and passwords do not match, respond with an error message
-    if (!user || !passwordMatch) {
-      return res.render('login', { errorMessage: 'Incorrect email or password. Please try again!' });
+    // If the passwords do not match, respond with an error message
+    if (!passwordMatch) {
+    return res.render('login', { errorMessage: 'Incorrect email or password. Please try again!' });
   }
-
+    
     // After verifying the password, set the user as logged in by saving the user ID in the session
     req.session.userId = user.id; // Set the userId in the session
 
