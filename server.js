@@ -12,6 +12,7 @@ const { withAuth } = require('./utils/auth');
 const User = require('./models/User');
 const app = express();
 const PORT = process.env.PORT || 3001;
+const Sequelize = require('sequelize');
 
 const sequelize = new Sequelize(config.database, config.username, config.password, {
   host: config.host,
