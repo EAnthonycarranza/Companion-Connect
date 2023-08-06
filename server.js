@@ -20,6 +20,8 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
   dialect: 'mysql'
 });
 
+sequelize.options.logging = console.log;
+
 // Set up handlebars
 const hbs = exphbs.create({
   defaultLayout: 'main',
