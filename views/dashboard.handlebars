@@ -18,6 +18,17 @@
             <!-- Add the logout link here -->
             <li><a href="/api/users/logout">Logout</a></li>
           </ul>
+          <!-- Display the user's uploaded pet photos -->
+          <h4>Your Uploaded Pet Photos</h4>
+          {{#if user.pet_photos}}
+            <ul>
+              {{#each user.pet_photos}}
+                <li><img src="{{image_url}}" alt="Pet Photo" width="200"></li>
+              {{/each}}
+            </ul>
+          {{else}}
+            <p>You haven't uploaded any pet photos yet.</p>
+          {{/if}}
         </div>
       </div>
     </div>
