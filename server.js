@@ -14,9 +14,8 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 const Sequelize = require('sequelize');
 
-const sequelize = new Sequelize(config.database, config.username, config.password, {
-  host: config.host,
-  dialect: 'mysql'
+const sequelize = new Sequelize(process.env.CLEARDB_COPPER_URL, {
+  dialect: 'mysql',
 });
 
 // Set up handlebars
