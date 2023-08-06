@@ -1,29 +1,37 @@
 require('dotenv').config();  // Load environment variables first
 
-const env = process.env.NODE_ENV || 'development';
-const config = require('./config/config')[env];
+// External Dependencies
 const express = require('express');
 const exphbs = require('express-handlebars');
 const session = require('express-session');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
-const routes = require('./controllers');
 const path = require('path');
+const Sequelize = require('sequelize');
+
+// Internal Dependencies
 const { withAuth } = require('./utils/auth');
 const User = require('./models/User');
-const app = express();
+const homeRoutes = require('./controllers/homeRoutes');
+const userRoutes = require('./controllers/api/userRoutes');
+
+// Configuration and Constants
+const env = process.env.NODE_ENV || 'development';
+const config = require('./config/config')[env];
 const PORT = process.env.PORT || 3001;
-const Sequelize = require('sequelize');
 
 const sequelize = new Sequelize(config.database, config.username, config.password, {
   host: config.host,
   dialect: 'mysql'
 });
 
-// Set up handlebars
+// Express and Middleware Initialization
+const app = express();
+
+// Handlebars setup
 const hbs = exphbs.create({
   defaultLayout: 'main',
   helpers: {
-    extend: function (name, context) {
+    extend(name, context) {
       const partial = hbs.getPartials()[name];
       if (!partial) return '';
       return new hbs.SafeString(partial(context));
@@ -38,92 +46,42 @@ app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, 'views'));
 
-// Middleware
+// Standard middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Session middleware with SequelizeStore
+// Session middleware
 const sess = {
-  secret: process.env.SESSION_SECRET,  // Secure your session secret
+  secret: process.env.SESSION_SECRET,  
   resave: false,
   saveUninitialized: true,
-  store: new SequelizeStore({
-    db: sequelize,
-  }),
+  store: new SequelizeStore({ db: sequelize })
 };
 
 app.use(session(sess));
-
 app.use((req, res, next) => {
   res.locals.isAuthenticated = !!req.session.userId; 
   next();
 });
 
 // Routes
-const homeRoutes = require('./controllers/homeRoutes');
-const userRoutes = require('./controllers/api/userRoutes');
-
 app.use('/', homeRoutes);
 app.use('/api/users', userRoutes);
-
-// Use userRoutes for /post route
-app.use('/post', userRoutes);
-
-// Route handler for the /dashboard/your-pets page
 app.get('/post', (req, res) => {
   res.render('post', { title: 'Upload Your Pet Photo' });
 });
+app.get('/dashboard', withAuth, /* ... rest of the handler ... */);
+app.get('/login', /* ... handler ... */);
+app.get('/signup', /* ... handler ... */);
+app.get('/account-settings', withAuth, /* ... handler ... */);
 
-// Route handler for the dashboard page
-app.get('/dashboard', withAuth, async (req, res) => {
-  try {
-    // Retrieve the user's information from the database using the user ID stored in the session
-    const user = await User.findByPk(req.session.userId);
-
-    // Pass the user's information and signupComplete flag to the template
-    res.render('dashboard', { title: 'Dashboard', username: user.username });
-
-    // Reset the signupComplete flag for subsequent visits
-    req.session.signupComplete = false;
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Server error' });
-  }
-});
-
-// Route handler for the login page
-app.get('/login', (req, res) => {
-  // Assuming you have a 'login' view in your views folder
-  res.render('login', { title: 'Login' });
-});
-
-// Route handler for the login page
-app.get('/signup', (req, res) => {
-  // Assuming you have a 'login' view in your views folder
-  res.render('signup', { title: 'Sign-Up' });
-});
-
-// Route handler for rendering the account settings page
-app.get('/account-settings', withAuth, async (req, res) => {
-  try {
-    // Retrieve the user's information from the database using the user ID stored in the session
-    const user = await User.findByPk(req.session.userId);
-
-    // Render the account settings view with the user's information
-    res.render('account-settings', { title: 'Account Settings', user });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Server error' });
-  }
-});
-
-if (DEBUG) {
+if (process.env.DEBUG) {
   require('debug').enable('app:*');
 }
 
-// Start the server
+// Starting the server
 app.listen(PORT, () => {
   console.log(`Server listening on http://localhost:${PORT}`);
-  sequelize.sync({ force: false }); // sync sequelize models to the database
+  sequelize.sync({ force: false }); 
 });
