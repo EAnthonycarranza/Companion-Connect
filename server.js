@@ -15,11 +15,11 @@ const PORT = process.env.PORT || 3001;
 const Sequelize = require('sequelize');
 const dbUrl = encodeURIComponent(process.env.CLEARDB_COPPER_URL);
 
+console.log("CLEARDB_COPPER_URL:", process.env.CLEARDB_COPPER_URL);
 const sequelize = new Sequelize(process.env.CLEARDB_COPPER_URL, {
   dialect: 'mysql',
 });
 
-console.log("CLEARDB_COPPER_URL:", process.env.CLEARDB_COPPER_URL);
 
 // Set up handlebars
 const hbs = exphbs.create({
