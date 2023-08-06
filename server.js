@@ -22,6 +22,7 @@ const PORT = process.env.PORT || 3001;
 const sequelize = new Sequelize(config.database, config.username, config.password, {
   host: config.host,
   dialect: 'mysql'
+  logging: false // Turn off logging for production.
 });
 
 // Express and Middleware Initialization
