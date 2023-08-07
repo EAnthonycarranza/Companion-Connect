@@ -202,6 +202,35 @@ router.post('/upload', upload.single('petPhoto'), async (req, res) => {
   }
 });
 
+router.delete('/delete-photo/:id', withAuth, async (req, res) => {
+  console.log('Delete photo route hit');
+  try {
+    const { id } = req.params;
+    const photo = await PetPhoto.findByPk(id);
+
+    if (!photo) {
+      return res.status(404).json({ message: 'Photo not found' });
+    }
+
+    // Make sure the photo belongs to the currently logged-in user
+    if (photo.user_id !== req.session.userId) {
+      return res.status(403).json({ message: 'Not authorized' });
+    }
+
+    // Delete the photo file from the server
+    fs.unlinkSync(path.join(__dirname, '../../uploads', path.basename(photo.image_url)));
+
+    // Delete the photo record from the database
+    await photo.destroy();
+
+    res.json({ success: true, message: 'Photo deleted successfully' });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
 // Route handler for the account settings page
 router.get('/account', withAuth, async (req, res) => {
   try {
