@@ -83,8 +83,8 @@ app.get('/dashboard', withAuth, async (req, res) => {
     // Fetch the pet photos associated with this user
     const petPhotos = await PetPhoto.findAll({ where: { user_id: req.session.userId } });
 
-    // Pass the user's information and signupComplete flag to the template
-    res.render('dashboard', { title: 'Dashboard', username: user.username });
+    // Pass the user's information, pet photos, and signupComplete flag to the template
+    res.render('dashboard', { title: 'Dashboard', username: user.username, petPhotos });
 
     // Reset the signupComplete flag for subsequent visits
     req.session.signupComplete = false;
