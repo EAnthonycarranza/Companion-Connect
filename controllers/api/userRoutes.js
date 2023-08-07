@@ -97,6 +97,9 @@ router.get('/dashboard', withAuth, async (req, res) => {
     // Retrieve the user's information from the database using the user ID stored in the session
     const user = await User.findByPk(req.session.userId);
 
+    // Retrieve the user's pet photos from the database
+    const petPhotos = await PetPhoto.findAll({ where: { user_id: user.id } });
+
     // Pass the user's information and signupComplete flag to the template
     res.render('dashboard', { username: user.username, signupComplete: req.session.signupComplete });
 
