@@ -1,11 +1,7 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const path = require('path');
 const fs = require('fs');
-
-const sequelize = new Sequelize('database_name', 'username', 'password', {
-  host: 'localhost',
-  dialect: 'mysql',
-});
+const sequelize = require('../config/connection');
 
 // Just require the User model, don't call it as a function
 const User = require('./User');
