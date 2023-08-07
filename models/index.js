@@ -9,6 +9,16 @@ const sequelize = new Sequelize('database_name', 'username', 'password', {
 
 // Just require the User model, don't call it as a function
 const User = require('./User');
+const PetPhoto = require('./PetPhoto');
+
+// Assuming you have associations to define, you can do it here
+// For example, if you have a one-to-many association between User and PetPhoto:
+User.hasMany(PetPhoto, {
+  foreignKey: 'user_id',
+});
+PetPhoto.belongsTo(User, {
+  foreignKey: 'user_id',
+});
 
 fs.readdirSync(path.join(__dirname))
   .filter(file => file !== 'index.js') // Exclude index.js from the list
@@ -19,5 +29,6 @@ fs.readdirSync(path.join(__dirname))
 
 module.exports = {
   User,
+  PetPhoto,
   // Export other models here
 };
