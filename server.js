@@ -108,9 +108,17 @@ app.get('/dashboard', withAuth, async (req, res) => {
   }
 });
 
-app.post('/upload', upload.single('petPhoto'), (req, res, next) => {
-  // Handle the upload here, e.g., store the image path in a database, etc.
-  res.send('File uploaded!');
+app.post('/upload', upload.single('petPhoto'), async (req, res, next) => {
+  try {
+    await PetPhoto.create({
+      image_url: `/uploads/${req.file.filename}`,
+      user_id: req.session.userId
+    });
+    res.redirect('/dashboard');
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
 }, (error, req, res, next) => {
   // This is error handling middleware specific to this route
   res.status(400).send({ error: error.message });
