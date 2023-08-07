@@ -1,0 +1,43 @@
+<!-- CompanionConnect/views/post.handlebars -->
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card mt-5">
+        <div class="card-header">
+          <h4>Upload Your Pet Photo</h4>
+        </div>
+        <div class="card-body">
+          <form action="/upload" method="POST" enctype="multipart/form-data" id="uploadForm">
+            <div class="mb-3">
+              <label for="petPhoto" class="form-label">Select a photo of your pet:</label>
+              <input type="file" class="form-control" id="petPhoto" name="petPhoto" accept="image/*" required>
+              <p id="error-message" style="color:red;"></p> <!-- Added an error message field -->
+            </div>
+            <button type="submit" class="btn btn-primary">Upload Photo</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('petPhoto').addEventListener('change', function() {
+        const MAX_SIZE_MB = 1;
+        const MAX_SIZE_BYTES = MAX_SIZE_MB * 1024 * 1024; // 1MB in bytes
+
+        if (this.files[0].size > MAX_SIZE_BYTES) {
+            document.getElementById('error-message').textContent = `File size should be less than ${MAX_SIZE_MB}MB`;
+            this.value = ''; // clear the input
+        } else {
+            document.getElementById('error-message').textContent = ''; // clear error message
+        }
+    });
+
+    // Prevent the form submission if there's an error
+    document.getElementById('uploadForm').addEventListener('submit', function(event) {
+        if (document.getElementById('error-message').textContent !== '') {
+            event.preventDefault();
+        }
+    });
+  </script>
+</div>
