@@ -38,7 +38,11 @@ User.init({
 // Define a one-to-many relationship between User and PetPhoto
 User.hasMany(PetPhoto, {
   foreignKey: 'user_id',
-  onDelete: 'CASCADE',
+  onDelete: 'CASCADE'
+});
+
+PetPhoto.belongsTo(User, {
+  foreignKey: 'user_id'
 });
 
 module.exports = User;
