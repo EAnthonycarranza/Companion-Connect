@@ -80,6 +80,9 @@ app.get('/dashboard', withAuth, async (req, res) => {
     // Retrieve the user's information from the database using the user ID stored in the session
     const user = await User.findByPk(req.session.userId);
 
+    // Fetch the pet photos associated with this user
+    const petPhotos = await PetPhoto.findAll({ where: { user_id: req.session.userId } });
+
     // Pass the user's information and signupComplete flag to the template
     res.render('dashboard', { title: 'Dashboard', username: user.username });
 
