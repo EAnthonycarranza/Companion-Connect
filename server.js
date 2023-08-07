@@ -121,7 +121,12 @@ app.post('/upload', upload.single('petPhoto'), async (req, res, next) => {
   }
 }, (error, req, res, next) => {
   // This is error handling middleware specific to this route
-  res.status(400).send({ error: error.message });
+  if (error instanceof multer.MulterError && error.code === 'LIMIT_FILE_SIZE') {
+    // When a Multer error occurs due to file size limit
+    res.status(400).send({ error: 'File size should be less than 1MB' });
+  } else if (error) {
+    res.status(400).send({ error: error.message });
+  }
 });
 
 // Route handler for the login page
