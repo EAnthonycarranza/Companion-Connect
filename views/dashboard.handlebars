@@ -20,9 +20,9 @@
           </ul>
           <!-- Display the user's uploaded pet photos -->
           <h4>Your Uploaded Pet Photos</h4>
-          {{#if user.pet_photos}}
+           {{#if petPhotos}}
             <ul>
-              {{#each user.pet_photos}}
+              {{#each petPhotos}}
                 <li><img src="{{image_url}}" alt="Pet Photo" width="200"></li>
               {{/each}}
             </ul>
