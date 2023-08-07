@@ -16,7 +16,23 @@ PetPhoto.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    // Add any additional fields you want to store with the image
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    user_id: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: User, // Make sure this matches the imported User model
+        key: 'id',
+      },
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE',
+    },
   },
   {
     sequelize,
