@@ -15,7 +15,7 @@ const PORT = process.env.PORT || 3001;
 const Sequelize = require('sequelize');
 const mysql = require('mysql2');
 const sequelize = require('./config/connection');  // Make sure to provide the correct path to connection.js.
-const PetPhoto = require('./models/PetPhotos);
+const PetPhoto = require('./models/PetPhotos');
 
 sequelize.options.logging = console.log;
 
