@@ -1,9 +1,9 @@
 <!-- CompanionConnect/views/post.handlebars -->
-<div class="container">
+<div class="container mt-4">
   <div class="row justify-content-center">
     <div class="col-md-8">
       <div class="card mt-5">
-        <div class="card-header">
+        <div class="card-header bg-primary text-white">
           <h4>Upload Your Pet Photo</h4>
         </div>
         <div class="card-body">
@@ -11,9 +11,17 @@
             <div class="mb-3">
               <label for="petPhoto" class="form-label">Select a photo of your pet:</label>
               <input type="file" class="form-control" id="petPhoto" name="petPhoto" accept="image/*" required>
-              <p id="error-message" style="color:red;"></p> <!-- Added an error message field -->
+              <p id="error-message" class="mt-2" style="color:red;"></p>
             </div>
-            <button type="submit" class="btn btn-primary">Upload Photo</button>
+            <div class="mb-3">
+              <label for="petName" class="form-label">Pet Name:</label>
+              <input type="text" class="form-control" id="petName" name="petName" required>
+            </div>
+            <div class="mb-3">
+              <label for="message" class="form-label">Your Message:</label>
+              <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-success">Upload & Submit</button>
           </form>
         </div>
       </div>
