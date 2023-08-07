@@ -56,7 +56,11 @@ app.set('views', path.join(__dirname, 'views'));
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Serve static files from the 'public' directory without any prefix
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Serve files from the 'uploads' directory with the '/uploads' prefix
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Session middleware with SequelizeStore
@@ -82,12 +86,14 @@ const userRoutes = require('./controllers/api/userRoutes');
 
 app.use('/', homeRoutes);
 app.use('/api/users', userRoutes);
-app.use('/post', userRoutes);
 
 // Specific route for the /post page to render the 'Upload Your Pet Photo' 
 app.get('/post', (req, res) => {
   res.render('post', { title: 'Upload Your Pet Photo' });
 });
+
+// Use userRoutes for /post route
+app.use('/post', userRoutes);
 
 // Route handler for the dashboard page
 app.get('/dashboard', withAuth, async (req, res) => {
