@@ -24,6 +24,8 @@
             <ul>
               {{#each petPhotos}}
                 <li><img src="{{image_url}}" alt="Pet Photo" width="200"></li>
+                <!-- Add a delete button next to the image. The data-id attribute holds the ID of the photo. -->
+                <button data-id="{{id}}" class="delete-photo-btn">Delete</button>
               {{/each}}
             </ul>
           {{else}}
@@ -33,4 +35,5 @@
       </div>
     </div>
   </div>
+  <script src="/js/dashboard.js"></script>
 </div>
