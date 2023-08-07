@@ -123,16 +123,22 @@ app.post('/upload', upload.single('petPhoto'), async (req, res, next) => {
     });
     res.redirect('/dashboard');
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    next(error); // Forward the error to the centralized error handler
   }
-}, (error, req, res, next) => {
-  // This is error handling middleware specific to this route
-  if (error instanceof multer.MulterError && error.code === 'LIMIT_FILE_SIZE') {
-    // When a Multer error occurs due to file size limit
-    res.status(400).send({ error: 'File size should be less than 1MB' });
-  } else if (error) {
-    res.status(400).send({ error: error.message });
+});
+
+// Now, after all your routes, you add the centralized error handler:
+// Centralized error handler
+app.use((error, req, res, next) => {
+  console.error(error); // Log the error for debugging purposes
+  if (error instanceof multer.MulterError) {
+    if (error.code === 'LIMIT_FILE_SIZE') {
+      res.status(400).send({ error: 'File size should be less than 1MB' });
+    } else {
+      res.status(400).send({ error: error.message });
+    }
+  } else {
+    res.status(500).send({ message: 'Server error' });
   }
 });
 
@@ -165,12 +171,6 @@ app.get('/account-settings', withAuth, async (req, res) => {
 if (process.env.DEBUG) {
   require('debug').enable('app:*');
 }
-
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send('Something broke!');
-});
-
 
 // Start the server
 sequelize.sync({ force: false }).then(() => {
