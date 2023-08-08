@@ -1,0 +1,58 @@
+<!-- CompanionConnect/views/view-pets.handlebars -->
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card mt-5">
+        <div class="card-header">
+          <h4>View All Pets Here!</h4>
+        </div>
+        <div class="card-body">
+          {{#if petPhotos.length}}
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+              {{#each petPhotos}}
+                <div class="col mb-4">
+                  <div class="card">
+                    <img src="{{image_url}}" class="card-img-top img-thumbnail" alt="Pet Photo">
+                    <div class="card-body">
+                      <h5 class="card-title">{{pet_name}}</h5>
+                      <p class="card-text">Age: {{age}} old</p>
+                      <p class="card-text">Location: {{location}}</p>
+                      <p class="card-text">Breed: {{breed}}</p>
+                      <p class="card-text">About: {{message}}</p>
+                      <!-- Display stored comments for each pet -->
+{{#if this.comments}}
+  <ul class="list-unstyled">
+    {{#each this.comments}}
+      <li class="mt-2">
+        {{this.content}}
+        {{!-- Display delete button for the comment if it belongs to the current user --}}
+        {{#if (and (isCommentOwner this.user_id currentUser.id))}} <!-- Assuming `currentUser.id` contains the ID of the current logged-in user -->
+          <form action="/delete-comment/{{this.id}}" method="POST" class="d-inline">
+            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+          </form>
+        {{/if}}
+      </li>
+    {{/each}}
+  </ul>
+{{else}}
+  <p>No comments available.</p>
+{{/if}}
+  <!-- Comment Box -->
+  <form action="/submit-comment/{{id}}" method="POST">
+    <textarea class="form-control mt-2" name="comment" placeholder="Add a comment..."></textarea>
+    <button type="submit" class="btn btn-primary mt-2">Submit Comment</button>
+  </form>
+</div>
+                    </div>
+                  </div>
+                </div>
+              {{/each}}
+            </div>
+          {{else}}
+            <p>No pet photos found.</p>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
