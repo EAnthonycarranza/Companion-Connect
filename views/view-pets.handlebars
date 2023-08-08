@@ -1,73 +1,59 @@
 <!-- CompanionConnect/views/view-pets.handlebars -->
-<div class="container">
+<div class="container mt-5">
   <div class="row justify-content-center">
-    <div class="col-md-8">
-      <div class="card mt-5">
-        <div class="card-header">
+    <div class="col-12 col-md-8"> <!-- Adjust for small devices -->
+      <div class="card shadow-lg mt-5"> <!-- Add shadow for a lifted effect -->
+        <div class="card-header bg-primary text-white">
           <h4>View All Pets Here!</h4>
         </div>
-        <div class="card-body">
+        <div class="card-body pb-4">
           {{#if petPhotos.length}}
-            <div class="row row-cols-1 row-cols-md-3 g-4">
+            <div class="row">
               {{#each petPhotos}}
-                <div class="col mb-4">
-                  <div class="card">
-                    <img src="{{image_url}}" class="card-img-top img-thumbnail" alt="Pet Photo">
-<div class="card-body">
-    <h5 class="card-title mb-3">{{pet_name}}</h5> <!-- Added margin for spacing -->
+<div class="col-12 col-md-6 mb-5">
+  <div class="card shadow"> <!-- Add shadow for a lifted effect -->
+      <div class="image-container text-center pt-4">
+          <img src="{{image_url}}" class="card-img-top img-fluid img-thumbnail mx-auto d-block" alt="Pet Photo">
+      </div>
+      
+      <div class="text-content flex-grow-1 d-flex flex-column justify-content-center align-items-center p-3"> <!-- Add padding inside the card -->
+          <h5 class="card-title font-weight-bold mb-2">{{pet_name}}</h5> <!-- Make pet name bold and a bit spaced -->
+          <p class="card-text mb-1"><strong>Age:</strong> {{age}} old</p> <!-- Make key labels bold -->
+          <p class="card-text mb-1"><strong>Location:</strong> {{location}}</p>
+          <p class="card-text mb-1"><strong>Breed:</strong> {{breed}}</p>
+          <p class="card-text mb-2"><strong>About:</strong> {{message}}</p>
+      </div>
+  </div>
 
-    <!-- Using flexbox to structure info with icons -->
-    <div class="d-flex align-items-center mb-2">
-        <i class="fas fa-paw mr-2"></i> <!-- Icon representing the pet (assuming Font Awesome icons) -->
-        <span class="text-muted">Breed:</span> <strong class="ml-1">{{breed}}</strong>
-    </div>
+  <div class="mt-3 p-3 bg-light rounded shadow"> <!-- Add a background to differentiate comments and main card, and add some padding and shadow -->
+    {{#if this.comments}}
+      <p><strong>Comments</strong></p> 
+        <ul class="list-unstyled">
+          {{#each this.comments}}
+            <li class="mt-2">
+              {{this.content}}
+              {{#if (and (isCommentOwner this.user_id currentUser.id))}}
+                <form action="/delete-comment/{{this.id}}" method="POST" class="d-inline">
+                  <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </form>
+              {{/if}}
+            </li>
+          {{/each}}
+        </ul>
+    {{else}}
+      <p>No comments available.</p>
+    {{/if}}
 
-    <div class="d-flex align-items-center mb-2">
-        <i class="fas fa-birthday-cake mr-2"></i> <!-- Icon representing age -->
-        <span class="text-muted">Age:</span> <strong class="ml-1">{{age}} old</strong>
-    </div>
-
-    <div class="d-flex align-items-center mb-2">
-        <i class="fas fa-map-marker-alt mr-2"></i> <!-- Icon representing location -->
-        <span class="text-muted">Location:</span> <strong class="ml-1">{{location}}</strong>
-    </div>
-
-    <hr> <!-- A horizontal line to separate general info from the pet's description -->
-
-    <p class="card-text mt-2">{{message}}</p> <!-- Description about the pet -->
+    <form action="/submit-comment/{{id}}" method="POST">
+      <textarea class="form-control mt-2" name="comment" placeholder="Add a comment..."></textarea>
+      <button type="submit" class="btn btn-primary mt-2">Submit Comment</button>
+    </form>
+  </div>
 </div>
-<!-- Display stored comments for each pet -->
-{{#if this.comments}}
-  <p>Comments</p> 
-  <ul class="list-unstyled">
-    {{#each this.comments}}
-      <li class="mt-2">
-        {{this.content}}
-        {{!-- Display delete button for the comment if it belongs to the current user --}}
-        {{#if (and (isCommentOwner this.user_id currentUser.id))}} <!-- Assuming `currentUser.id` contains the ID of the current logged-in user -->
-          <form action="/delete-comment/{{this.id}}" method="POST" class="d-inline">
-            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-          </form>
-        {{/if}}
-      </li>
-    {{/each}}
-  </ul>
-{{else}}
-  <p>No comments available.</p>
-{{/if}}
-  <!-- Comment Box -->
-  <form action="/submit-comment/{{id}}" method="POST">
-    <textarea class="form-control mt-2" name="comment" placeholder="Add a comment..."></textarea>
-    <button type="submit" class="btn btn-primary mt-2">Submit Comment</button>
-  </form>
-</div>
-                    </div>
-                  </div>
-                </div>
               {{/each}}
             </div>
           {{else}}
-            <p>No pet photos found.</p>
+            <p class="text-center">No pet photos found.</p>
           {{/if}}
         </div>
       </div>
