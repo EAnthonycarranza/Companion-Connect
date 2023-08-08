@@ -40,8 +40,6 @@ const upload = multer({
   }
 });
 
-sequelize.options.logging = console.log;
-
 // Set up handlebars
 const hbs = exphbs.create({
   defaultLayout: 'main',
