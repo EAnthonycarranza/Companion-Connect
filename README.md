@@ -32,7 +32,7 @@ You can find a live demo of the Companion Connect Blog at [Deployed site](https:
 - MYSQL (Database)
 
 ## Installation
-1. Clone the repository: `git clone https://github.com/yourusername/companion-connect-blog.git`
+1. Clone the repository: `git clone https://github.com/EAnthonycarranza/Companion-Connect.git`
 2. Navigate to the project directory: `cd Companion-Connect`
 3. Install the dependencies: `npm install`
 
