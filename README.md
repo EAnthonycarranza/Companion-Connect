@@ -43,6 +43,3 @@ You can find a live demo of the Companion Connect Blog at [Deployed site](https:
 
 ## License
 The Companion Connect Blog is open-source software licensed under the [MIT License](https://opensource.org/licenses/MIT).
-
----
-*This README template is adapted from [PurpleBooth/README-Template](https://github.com/PurpleBooth/a-good-readme-template).*
