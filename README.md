@@ -19,7 +19,7 @@ Welcome to the Companion Connect Blog, a web application dedicated to celebratin
 - Search for pets based on breed, age, location, and more.
 
 ## Demo
-You can find a live demo of the Companion Connect Blog at [https://companion-connect-2872c986be71.herokuapp.com/](https://companion-connect-2872c986be71.herokuapp.com/).
+You can find a live demo of the Companion Connect Blog at [Deployed site](https://companion-connect-2872c986be71.herokuapp.com/).
 
 ## Technologies Used
 - Node.js
