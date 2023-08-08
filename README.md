@@ -1,6 +1,6 @@
 # Companion Connect Blog
 
-![Companion Connect Blog](https://example.com/companion-connect-blog-logo.png)
+![Companion Connect Blog](uploads/Screenshot%202023-08-07%20at%207.25.00%20PM.png)
 
 Welcome to the Companion Connect Blog, a web application dedicated to celebrating the joy and love that pets bring into our lives. This platform allows users to explore heartwarming stories and helpful information about our beloved animal companions. Join our community and share your own stories about your furry friends!
 
