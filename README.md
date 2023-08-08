@@ -4,6 +4,9 @@
 
 Welcome to the Companion Connect Blog, a web application dedicated to celebrating the joy and love that pets bring into our lives. This platform allows users to explore heartwarming stories and helpful information about our beloved animal companions. Join our community and share your own stories about your furry friends!
 
+## User Story
+As an animal lover, I want to connect with a community that shares my passion for animals and find a platform to share the captivating stories of my pets.
+
 ## Table of Contents
 - [Introduction](#companion-connect-blog)
 - [Features](#features)
