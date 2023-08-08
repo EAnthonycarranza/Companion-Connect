@@ -16,7 +16,7 @@ Welcome to the Companion Connect Blog, a web application dedicated to celebratin
 ## Features
 - View heart-warming stories and helpful information about pets.
 - Post and share your own stories about your furry friends.
-- Search for pets based on breed, age, location, and more.
+- view pets based on breed, age, location, and more.
 
 ## Demo
 You can find a live demo of the Companion Connect Blog at [Deployed site](https://companion-connect-2872c986be71.herokuapp.com/).
