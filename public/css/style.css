@@ -6,4 +6,28 @@
     object-fit: cover;
   }
   
-  /* Add custom CSS to set the height of the card body */
+  body {
+    background: linear-gradient(to bottom, #e0f7ff, #e7f3fa, #eff0f7, #f5f5f5);
+    background-size: 100% 250%;
+    height: 100vh;
+    margin: 0;
+}
+
+
+.card {
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+}
+
+.btn-primary {
+    background-image: linear-gradient(to bottom, #007bff, #0056b3);
+}
+
+.navbar-light.bg-light {
+    background-image: linear-gradient(to bottom, #f8f9fa, #e2e6e9);
+}
+
+textarea.form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
