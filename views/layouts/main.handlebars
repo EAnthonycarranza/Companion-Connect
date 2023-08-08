@@ -15,9 +15,11 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav">
+                    {{#unless isAuthenticated}}
                     <li class="nav-item active">
                         <a class="nav-link" href="/">Home</a>
                     </li>
+                    {{/unless}}
                     {{#if isAuthenticated}}
                       <!-- If the user is authenticated, hide login, signup, and admin-login links -->
                       <li class="nav-item">
