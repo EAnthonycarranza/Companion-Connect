@@ -31,3 +31,17 @@ textarea.form-control:focus {
     border-color: #80bdff;
     box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
 }
+
+@media (max-width: 320px) {
+    h5.card-title {
+        font-size: 1.2rem;  /* Adjust font size for mobile */
+    }
+    .card {
+        margin: 0.5rem 0;  /* Adjust card margin for mobile */
+    }
+    .text-content p {
+        font-size: 0.8rem;  /* Adjust paragraph font size for mobile */
+    }
+    /* Add more adjustments as needed */
+}
+
