@@ -108,10 +108,6 @@ router.get('/dashboard', withAuth, async (req, res) => {
       }
     });
 
-    // Debugging logs
-    console.log('User:', user);
-    console.log('Pet Photos:', petPhotos);
-
     // Pass the user's information and formatted pet photos to the template
     res.render('dashboard', { username: user.username, user, petPhotos });
 
