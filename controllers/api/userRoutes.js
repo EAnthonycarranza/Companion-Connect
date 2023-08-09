@@ -64,7 +64,11 @@ router.post('/signup', async (req, res) => {
     // Check if the user already exists
     const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
-      return res.status(400).json({ message: 'User with this email already exists' });
+      if (req.xhr) {  // if it's an AJAX request
+        return res.status(400).json({ message: 'User with this email already exists' });
+      } else {  // for normal request
+        return res.render('signup', { error: 'Email already exists' });
+      }
     }
 
     // Hash the password
@@ -270,10 +274,10 @@ router.post('/update-password', withAuth, async (req, res) => {
     // Check if the provided current password matches the hashed password in the database
     const passwordMatch = await bcrypt.compare(currentPassword, user.password);
 
-    // If the current password is incorrect, respond with an error message
-    if (!passwordMatch) {
-      return res.status(400).json({ message: 'Incorrect current password' });
-    }
+// If the current password is incorrect, respond with an error message
+if (!passwordMatch) {
+  return res.render('account-settings', { user: user, errorMessage: 'Incorrect password' });
+}
 
     // Hash the new password
     const hashedNewPassword = await bcrypt.hash(newPassword, 10);
@@ -299,10 +303,10 @@ router.post('/delete-account', withAuth, async (req, res) => {
     // Find the user in the database by ID
     const user = await User.findByPk(userId);
 
-    // Check if the provided username, email, and password match the user's information in the database
-    if (user.username !== username || user.email !== email || !(await bcrypt.compare(password, user.password))) {
-      return res.status(400).json({ message: 'Invalid username, email, or password' });
-    }
+// If the provided username, email, and password do not match, respond with an error message
+if (user.username !== username || user.email !== email || !(await bcrypt.compare(password, user.password))) {
+  return res.render('account-settings', { user: user, deleteErrorMessage: 'Invalid username, email, or password' });
+}
 
     // Delete the user's account from the database
     await User.destroy({ where: { id: userId } });
